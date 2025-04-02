@@ -1,0 +1,26 @@
+import java.util.Scanner;
+import java.util.Arrays;
+
+class Search{
+    public static void main(String arg[]){
+        Integer arr[] = {3,8,1,7,5,9,10,14,17,77,54,4};
+        boolean found=false;
+
+        Scanner sc = new Scanner(System.in);
+        System.out.println("Enter the number");
+        int num = sc.nextInt();
+        for(int i : arr){
+            if(i == num){
+                found =  true;
+                break;
+            }
+        }
+        if(found){
+            System.out.println(num + " is found in array. ");
+        }
+        else{
+            System.out.println(num + " is not found in array. ");
+        }
+
+    }
+}
