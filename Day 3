@@ -1,0 +1,19 @@
+import java.util.Scanner;
+
+class Prime {
+  
+   public static void main(String[] arg) {
+      Scanner sc = new Scanner(System.in);
+      System.out.println("Enter the number");
+      int num = sc.nextInt();
+      if (num <= 1) {
+         System.out.println("0 and 1 are not prime numbers.");  
+      }
+      if (num % 2 == 0) {
+        System.out.println(num + " is not prime number. ");
+     } else {
+        System.out.println(num + " is prime number. ");
+     }
+
+   }
+}
