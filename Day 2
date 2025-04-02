@@ -1,0 +1,15 @@
+public class Main{
+    public static void main(String arg[]){
+        int arr[] = {10,14,19,26,27,31,33,35,42,44};
+        int n = 11;
+        int count = 0;
+        
+        for(int i=0; i<arr.length; i++){
+            if(arr[i] == n){
+                count++;
+            }
+        }
+        System.out.println(" The number "+ n +" apperars "+ count +" in array. ");
+
+    }
+}
