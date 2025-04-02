@@ -1,0 +1,100 @@
+import java.util.Scanner;
+
+
+abstract class Employee {
+    protected String name;
+    protected int id;
+
+    public Employee(String name, int id) {
+        this.name = name;
+        this.id = id;
+    }
+
+    
+    public abstract double calculateSalary();
+
+    
+    public void displayDetails() {
+        System.out.println("ID: " + id + ", Name: " + name + ", Salary: " + calculateSalary());
+    }
+}
+
+
+class Manager extends Employee {
+    private double baseSalary;
+    private double bonus;
+
+    public Manager(String name, int id, double baseSalary, double bonus) {
+        super(name, id);
+        this.baseSalary = baseSalary;
+        this.bonus = bonus;
+    }
+
+    @Override
+    public double calculateSalary() {
+        return baseSalary + bonus;
+    }
+}
+
+
+class Developer extends Employee {
+    private double baseSalary;
+    private double projectIncentive;
+
+    public Developer(String name, int id, double baseSalary, double projectIncentive) {
+        super(name, id);
+        this.baseSalary = baseSalary;
+        this.projectIncentive = projectIncentive;
+    }
+
+    @Override
+    public double calculateSalary() {
+        return baseSalary + projectIncentive;
+    }
+}
+
+
+public class EmployeeSalaryCalculation {
+    public static void main(String[] args) {
+        Scanner sc = new Scanner(System.in);
+        
+        System.out.print("Enter Employee Name: ");
+        String name = sc.nextLine();
+        
+        System.out.print("Enter Employee ID: ");
+        int id = sc.nextInt();
+        
+        System.out.println("Select Employee Type: \n1. Manager \n2. Developer");
+        int choice = sc.nextInt();
+        
+        Employee employee = null;
+        
+        switch (choice) {
+            case 1:
+                System.out.print("Enter Base Salary: ");
+                double baseSalaryManager = sc.nextDouble();
+                System.out.print("Enter Bonus: ");
+                double bonus = sc.nextDouble();
+                employee = new Manager(name, id, baseSalaryManager, bonus);
+                break;
+            
+            case 2:
+                System.out.print("Enter Base Salary: ");
+                double baseSalaryDev = sc.nextDouble();
+                System.out.print("Enter Project Incentive: ");
+                double projectIncentive = sc.nextDouble();
+                employee = new Developer(name, id, baseSalaryDev, projectIncentive);
+                break;
+            
+            default:
+                System.out.println("Invalid Choice!");
+                sc.close();
+                return;
+        }
+    
+        System.out.println("\nEmployee Details:");
+        employee.displayDetails();
+        
+        sc.close();
+    }
+}
