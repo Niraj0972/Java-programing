@@ -1,0 +1,92 @@
+import java.util.ArrayList;
+
+class Book {
+    private String title;
+    private String author;
+    private int ISBN;
+
+
+    public Book(String title, String author) {
+        this.title = title;
+        this.author = author;
+        this.ISBN = 0;
+    }
+
+    
+    public Book(String title, int ISBN) {
+        this.title = title;
+        this.author = "Unknown"; 
+        this.ISBN = ISBN;
+    }
+
+    
+    public Book(String title, String author, int ISBN) {
+        this.title = title;
+        this.author = author;
+        this.ISBN = ISBN;
+    }
+
+    public String getTitle() {
+        return title;
+    }
+
+    public void displayBook() {
+        System.out.println("Title: " + title + ", Author: " + author + ", ISBN: " + ISBN);
+    }
+}
+
+class Library {
+    private ArrayList<Book> books;
+
+    public Library() {
+
+         books = new ArrayList();
+    }
+
+    public void addBook(Book newBook) {
+        books.add(newBook);
+        System.out.println("Book added successfully!");
+    }
+
+    
+    public void displayBooks() {
+        if (books.isEmpty()) {
+            System.out.println("No books available in the library.");
+        } else {
+            for (Book book : books) {
+                book.displayBook();
+            }
+        }
+    }
+
+    public Book searchBookByTitle(String title) {
+        for (Book book : books) {
+            if (book.getTitle().equalsIgnoreCase(title)) {
+                return book;
+            }
+        }
+        return null; 
+    }
+}
+
+public class LibraryManagementSystem {
+    public static void main(String[] args) {
+        Library library = new Library();
+
+        library.addBook(new Book("Chavva", "Ranjeet Desai"));
+        library.addBook(new Book("The Mind", 123456));
+        library.addBook(new Book("Atomic Habits", "James Clear", 789012));
+
+        System.out.println("\nBooks in Library:");
+        library.displayBooks();
+
+        String searchTitle = "Jungle Book";
+        Book foundBook = library.searchBookByTitle(searchTitle);
+        if (foundBook != null) {
+            System.out.println("\nBook found:");
+            foundBook.displayBook();
+        } else {
+            System.out.println("\nBook with title '" + searchTitle + "' not found.");
+        }
+    }
+}
