@@ -1,0 +1,132 @@
+import java.util.Scanner;
+
+
+class BankAccount {
+    protected String accountNumber;
+    protected String accountHolderName;
+    protected double balance;
+
+    public BankAccount(String accountNumber, String accountHolderName, double balance) {
+        this.accountNumber = accountNumber;
+        this.accountHolderName = accountHolderName;
+        this.balance = balance;
+    }
+
+    public void deposit(double amount) {
+        if (amount > 0) {
+            balance = balance + amount;
+            System.out.println("Deposit successfully. New balance is : " + balance);
+        } else {
+            System.out.println("Invalid amount. Please enter a positive value.");
+        }
+    }
+
+    public void withdraw(double amount) {
+        System.out.println("Withdrawal not allowed for base account.");
+    }
+
+    public void displayInfo() {
+        System.out.println("Account Number: " + accountNumber);
+        System.out.println("Account Holder: " + accountHolderName);
+        System.out.println("Balance: " + balance);
+    }
+}
+
+
+class SavingAccount extends BankAccount {
+
+    private double minBalance;
+
+    public SavingAccount(String accountNumber, String accountHolderName, double balance, double minBalance) {
+        super(accountNumber, accountHolderName, balance);
+        this.minBalance = minBalance;
+    }
+
+    @Override
+    public void withdraw(double amount) {
+        if (amount > 0 && (balance - amount) >= minBalance) {
+            balance = balance - amount;
+            System.out.println("Withdrawal successfully. New balance is : " + balance);
+        } else {
+            System.out.println("Insufficient balance or minimum balance limit reached.");
+        }
+    }
+}
+
+
+class CurrentAccount extends BankAccount {
+    private double overdraftLimit;
+
+    public CurrentAccount(String accountNumber, String accountHolderName, double balance, double overdraftLimit) {
+        super(accountNumber, accountHolderName, balance);
+        this.overdraftLimit = overdraftLimit;
+    }
+
+    @Override
+    public void withdraw(double amount) {
+        if (amount > 0 && (balance - amount) >= -overdraftLimit) {
+            balance = balance - amount;
+            System.out.println("Withdrawal successfully. New balance is : " + balance);
+        } else {
+            System.out.println("Overdraft limit exceeded. Transaction declined.");
+          }
+    }
+}
+
+
+public class Main {
+    public static void main(String[] args) {
+        Scanner sc = new Scanner(System.in);
+
+        System.out.println("Select Account Type: 1. Savings  2. Current");
+        int choice = sc.nextInt();
+
+        BankAccount account = null;
+
+        System.out.print("Enter Account Number: ");
+        String accNumber = sc.next();
+        System.out.print("Enter Account Holder Name: ");
+        String accHolder = sc.next();
+        System.out.print("Enter Initial Balance: ");
+        double balance = sc.nextDouble();
+
+        if (choice == 1) {
+            System.out.print("Enter Minimum Balance for Savings: ");
+            double minBalance = sc.nextDouble();
+            account = new SavingAccount(accNumber, accHolder, balance, minBalance);
+        } else if (choice == 2) {
+            System.out.print("Enter Overdraft Limit for Current Account: ");
+            double overdraftLimit = sc.nextDouble();
+            account = new CurrentAccount(accNumber, accHolder, balance, overdraftLimit);
+        } else {
+            System.out.println("Invalid choice. Exiting application.");
+            System.exit(0);
+        }
+
+        account.displayInfo();
+
+        while (true) {
+            System.out.println("\nChoose Operation: 1. Deposit  2. Withdraw  3. Exit");
+            int operation = sc.nextInt();
+
+            switch (operation) {
+                case 1:
+                    System.out.print("Enter amount to deposit: ");
+                    double depositAmount = sc.nextDouble();
+                    account.deposit(depositAmount);
+                    break;
+                case 2:
+                    System.out.print("Enter amount to withdraw: ");
+                    double withdrawAmount = sc.nextDouble();
+                    account.withdraw(withdrawAmount);
+                    break;
+                case 3:
+                    System.out.println("Exiting. Thank you for using our banking system.");
+                    System.exit(0);
+                    break;
+                default:
+                    System.out.println("Invalid operation. Please choose again.");
+            }
+        }
+    }
+}
