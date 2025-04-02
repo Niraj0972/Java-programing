@@ -1,0 +1,12 @@
+import java.util.Arrays;
+class Main{
+  public static int largestElement(int[] num, int k){
+    Arrays.sort(num);
+    return num[num.length - k];
+  }
+  public static void main(String arg[]){
+    int arr[] = {1,4,3,8,4,9,2,5,6};
+    int k = 3;
+    System.out.println(largestElement(arr,k));
+  }
+}
