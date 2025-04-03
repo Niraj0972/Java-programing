@@ -1,0 +1,60 @@
+class University {
+    
+    private static String universityName = "XYZ University";
+
+    public static void changeUniversityName(String name) {
+        universityName = name;
+    }
+
+    public final void getUniversityDetails() {
+        System.out.println("University Name: " + universityName);
+    }
+}
+
+class Student {
+
+    private int studentID;
+    private String studentName;
+    private String course;
+    private final int admissionYear; 
+    
+    private static int totalStudents = 0;
+
+    public Student(int studentID, String studentName, String course, int admissionYear) {
+        this.studentID = studentID;
+        this.studentName = studentName;
+        this.course = course;
+        this.admissionYear = admissionYear;
+        totalStudents++; 
+    }
+
+    public void getStudentDetails() {
+        System.out.println("Student ID: " + studentID);
+        System.out.println("Name: " + studentName);
+        System.out.println("Course: " + course);
+        System.out.println("Admission Year: " + admissionYear);
+    }
+
+    public static int getTotalStudents() {
+        return totalStudents;
+    }
+}
+
+public class UniversityManagement {
+    public static void main(String[] args) {
+
+        University uni = new University();
+        uni.getUniversityDetails();
+        
+        University.changeUniversityName("ABC University");
+        uni.getUniversityDetails();
+        
+        Student s1 = new Student(101, "Niraj", "Computer Science", 2023);
+        Student s2 = new Student(102, "Akshay", "Mechanical Engineering", 2022);
+        
+        s1.getStudentDetails();
+        s2.getStudentDetails();
+        
+        System.out.println("Total Students Enrolled: " + Student.getTotalStudents());
+    }
+}
