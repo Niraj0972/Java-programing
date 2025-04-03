@@ -1,0 +1,74 @@
+import java.util.*;
+
+class Order {
+    private String orderId;
+    private String customerId;
+    private List<String> productCodes;
+
+    public Order(String orderId, String customerId, List<String> productCodes) {
+        this.orderId = orderId;
+        this.customerId = customerId;
+        this.productCodes = new ArrayList(productCodes);
+    }
+
+    public String getCustomerId() {
+        return customerId;
+    }
+
+    public List<String> getProductCodes() {
+        return productCodes;
+    }
+}
+
+public class ProductOrderAnalyzer {
+    private List<Order> orders = new ArrayList();
+    private Set<String> uniqueProducts = new HashSet();
+    private Map<String, Integer> productSalesCount = new HashMap();
+    private Map<String, Set<String>> customerProductMap = new HashMap();
+
+    public void addOrder(Order order) {
+        orders.add(order);
+        
+        for (String product : order.getProductCodes()) {
+            uniqueProducts.add(product);
+            productSalesCount.put(product, productSalesCount.getOrDefault(product, 0) + 1);
+            
+            customerProductMap.putIfAbsent(order.getCustomerId(), new HashSet());
+            customerProductMap.get(order.getCustomerId()).add(product);
+        }
+    }
+
+    public Set<String> getUniqueProducts() {
+        return uniqueProducts;
+    }
+
+    public Map<String, Integer> getProductSalesCount() {
+        return productSalesCount;
+    }
+
+    public String getTopCustomer() {
+        String topCustomer = null;
+        int maxProducts = 0;
+        
+        for (Map.Entry<String, Set<String>> entry : customerProductMap.entrySet()) {
+            if (entry.getValue().size() > maxProducts) {
+                maxProducts = entry.getValue().size();
+                topCustomer = entry.getKey();
+            }
+        }
+        return topCustomer;
+    }
+
+    public static void main(String[] args) {
+        ProductOrderAnalyzer analyzer = new ProductOrderAnalyzer();
+        
+        analyzer.addOrder(new Order("O1", "C1", Arrays.asList("P1", "P2", "P3")));
+        analyzer.addOrder(new Order("O2", "C2", Arrays.asList("P2", "P4")));
+        analyzer.addOrder(new Order("O3", "C1", Arrays.asList("P3", "P5")));
+        analyzer.addOrder(new Order("O4", "C3", Arrays.asList("P1", "P6", "P7")));
+
+        System.out.println("Unique Products: " + analyzer.getUniqueProducts());
+        System.out.println("Product Sales Count: " + analyzer.getProductSalesCount());
+        System.out.println("Top Customer: " + analyzer.getTopCustomer());
+    }
+}
